@@ -15,7 +15,7 @@ source:
     - patches/windows_cmake_install_path_fix.patch
 
 build:
-  number: 1
+  number: 2
   string: py${{ python | version_to_buildstring }}qt${{ qt }}h${{ hash }}_${{ build_number }}
   skip: ${{ match(python, ">3.11") and (qt == "5") }}
   script:
@@ -27,9 +27,9 @@ requirements:
     - ${{ stdlib("c") }}
     - ${{ compiler("cxx") }}
     - if: build_platform != target_platform
-      then: python
-    - if: build_platform != target_platform
-      then: cross-python_${{ target_platform }}
+      then:
+        - python
+        - cross-python_${{ target_platform }}
     - if: win
       then: msinttypes
     - cmake
